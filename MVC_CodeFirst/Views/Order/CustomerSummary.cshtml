@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Select Customer";
+}
+
+<div class="container mt-4">
+    <h2><i class="fas fa-user"></i> Select Customer for Order Summary</h2>
+    <hr />
+
+    @using (Html.BeginForm("CustomerSummary", "Order", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label>Choose Customer:</label>
+            @Html.DropDownList("CustomerId", ViewBag.CustomerId as SelectList,
+                "-- Select Customer --",
+                new { @class = "form-control", required = "required" })
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-chart-bar"></i> View Order Summary
+        </button>
+
+        @Html.ActionLink("Back to Orders", "Index", null, new { @class = "btn btn-secondary ml-2" })
+    }
+</div>

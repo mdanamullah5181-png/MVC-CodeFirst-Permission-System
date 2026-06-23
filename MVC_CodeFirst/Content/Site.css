@@ -1,0 +1,282 @@
+﻿/* Mobile Shop Management Theme */
+:root {
+    --primary: #e63946;
+    --primary-dark: #d62828;
+    --secondary: #457b9d;
+    --accent: #f1faee;
+    --dark-bg: #1a1a2e;
+    --card-bg: #16213e;
+    --sidebar-bg: #0f3460;
+    --text-primary: #eaeaea;
+    --text-secondary: #b0b0b0;
+    --border-color: #233959;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 100%;
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Button Styles */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-dark), #bb2124) !important;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--secondary), #3d588f) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #3d588f, #2d4770) !important;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #ee5a52, #dd4b4b) !important;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffd93d, #ffc93a) !important;
+    border: none !important;
+    color: #1a1a2e !important;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #ffc93a, #ffb827) !important;
+    transform: translateY(-2px);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--secondary), #457b9d) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #457b9d, #386a8e) !important;
+    transform: translateY(-2px);
+}
+
+/* Badge & Alert Styles */
+.alert {
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.alert-success {
+    background-color: rgba(69, 123, 157, 0.1) !important;
+    border-color: var(--secondary) !important;
+    color: var(--secondary) !important;
+}
+
+.alert-danger {
+    background-color: rgba(230, 57, 70, 0.1) !important;
+    border-color: var(--primary) !important;
+    color: #ff6b6b !important;
+}
+
+.alert-warning {
+    background-color: rgba(255, 217, 61, 0.1) !important;
+    border-color: #ffd93d !important;
+    color: #ffc93a !important;
+}
+
+.badge {
+    background-color: var(--primary) !important;
+    color: white !important;
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 10px !important;
+    color: var(--text-primary) !important;
+}
+
+.card-body {
+    color: var(--text-primary) !important;
+}
+
+.card-title {
+    color: var(--primary) !important;
+    font-weight: 600;
+}
+
+.card-header {
+    background-color: rgba(230, 57, 70, 0.1) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Form Styles */
+.form-control,
+.form-select {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+    border-radius: 6px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #233959 !important;
+    color: var(--text-primary) !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.25) !important;
+}
+
+.form-label,
+.control-label {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+}
+
+/* Table Styles */
+.table {
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.table thead {
+    background-color: rgba(230, 57, 70, 0.2) !important;
+    border-color: var(--border-color) !important;
+}
+
+.table thead th {
+    color: var(--primary) !important;
+    font-weight: 600;
+    border-color: var(--border-color) !important;
+}
+
+.table td {
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(230, 57, 70, 0.1) !important;
+}
+
+/* Navbar Styles */
+.navbar-inverse {
+    background-color: var(--sidebar-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+.navbar-inverse .navbar-brand {
+    color: var(--primary) !important;
+    font-weight: 700;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: var(--text-secondary) !important;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: var(--primary) !important;
+}
+
+/* Disabled State */
+button:disabled,
+.btn:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+/* Text Utilities */
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+.text-danger {
+    color: #ff6b6b !important;
+}
+
+.text-success {
+    color: var(--secondary) !important;
+}
+
+.text-warning {
+    color: #ffd93d !important;
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+/* Panel Styles */
+.panel {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    border-radius: 8px !important;
+}
+
+.panel-heading {
+    background-color: rgba(230, 57, 70, 0.1) !important;
+    border-color: var(--border-color) !important;
+    color: var(--primary) !important;
+}
+
+.panel-body {
+    color: var(--text-primary) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,88 @@
+﻿
+@model IEnumerable<MVC_CodeFirst.Models.RolePermission>
+
+@{
+    ViewBag.Title = "Manage Permission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // কন্ট্রোলার এবং অ্যাকশনগুলোর লিস্ট ডিফাইন করা
+    string[] controllers = { "ProductCategory", "Product", "Order" };
+    string[] targetActions = { "Index", "Create", "Edit", "Delete", "Details" };
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Role: <span class="text-primary">@ViewBag.RoleName</span></h2>
+        <p class="text-muted">Select the actions this role is allowed to perform.</p>
+        <hr />
+    </div>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        <strong>Error:</strong> @TempData["Error"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        @using (Html.BeginForm("SavePermission", "Role", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="roleId" value="@ViewBag.RoleId" />
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Permission Matrix</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="info">
+                                    <th style="background-color: #f9f9f9;">Module Name</th>
+                                    @foreach (var actionName in targetActions)
+                                    {
+                                        <th class="text-center">@actionName</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ctrl in controllers)
+                                {
+                                    <tr>
+                                        <td style="font-weight:bold; background-color: #f9f9f9;">@ctrl</td>
+                                        @foreach (var act in targetActions)
+                                        {
+                                            var actionString = ctrl + "-" + act;
+                                            var isChecked = (Model != null && Model.Any(p => p.ControllerName == ctrl && p.ActionName == act)) ? "checked" : "";
+
+                                            <td class="text-center">
+                                                <input type="checkbox" name="selectedActions" value="@actionString" @isChecked />
+                                                <div class="small text-muted">Allow</div>
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-success">
+                        <i class="glyphicon glyphicon-save"></i> Update Permissions
+                    </button>
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["Message"]
+    </div>
+}

@@ -1,0 +1,270 @@
+﻿@model MVC_CodeFirst.Models.ViewModels.ProductViewModel
+
+<div class="product-card">
+    <!-- Image Container - Now takes more space -->
+    <div class="product-image">
+        @if (!string.IsNullOrEmpty(Model.ProductImage))
+        {
+            <img src="@Url.Content("~/Images/" + Model.ProductImage)" alt="@Model.ProductName">
+        }
+        else
+        {
+            <div class="no-image">
+                <span>NO IMAGE</span>
+            </div>
+        }
+    </div>
+
+    <!-- Compact Product Info -->
+    <div class="product-info">
+        <div class="product-header">
+            <div class="product-category">@Model.CategoryName</div>
+            <div class="stock-badge @(Model.AvailableQuantity <= 5 ? "low-stock" : "in-stock")">
+              Stock: @Model.AvailableQuantity
+            </div>
+        </div>
+
+        <h3 class="product-name">@Model.ProductName</h3>
+
+        <div class="product-details">
+            <div class="price-row">
+                <span class="price">@Model.UnitPrice.ToString("N2")</span>
+                <span class="unit">/ @Model.Unit</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons - Permission-based visibility -->
+    <div class="product-actions">
+        @{
+            bool canDetails = ViewBag.CanAccess("Product", "Details");
+            bool canEdit = ViewBag.CanAccess("Product", "Edit");
+            bool canDelete = ViewBag.CanAccess("Product", "Delete");
+        }
+
+        @if (canDetails)
+        {
+            <a href="@Url.Action("Details", "Product", new { id = Model.ProductId })" class="action-btn details-btn" title="View Details">
+                Details
+            </a>
+        }
+
+        @if (canEdit)
+        {
+            <a href="@Url.Action("Edit", "Product", new { id = Model.ProductId })" class="action-btn edit-btn" title="Edit Product">
+                Edit
+            </a>
+        }
+
+        @if (canDelete)
+        {
+            <a href="@Url.Action("Delete", "Product", new { id = Model.ProductId })" class="action-btn delete-btn" title="Delete Product">
+                Delete
+            </a>
+        }
+
+        @if (!canDetails && !canEdit && !canDelete)
+        {
+            <div class="action-btn disabled-message">
+                You don't have any permission for this product
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    /* Compact Product Card - NO ANIMATIONS */
+    .product-card {
+        background: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e9ecef;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Image Section - Takes more space */
+    .product-image {
+        position: relative;
+        height: 220px; /* Increased from 180px */
+        overflow: hidden;
+        background: #f8f9fa;
+    }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .no-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #dee2e6;
+        color: #6c757d;
+        font-weight: 500;
+        font-size: 13px;
+    }
+
+    /* Compact Product Info */
+    .product-info {
+        padding: 12px;
+        flex-grow: 1;
+    }
+
+    .product-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .product-category {
+        color: #6c757d;
+        font-size: 11px;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .stock-badge {
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 10px;
+        font-weight: 600;
+        color: white;
+    }
+
+    .in-stock {
+        background: #28a745;
+    }
+
+    .low-stock {
+        background: #dc3545;
+    }
+
+    .product-name {
+        color: #212529;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 0 8px 0;
+        line-height: 1.2;
+        height: 34px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .product-details {
+        margin-top: 4px;
+    }
+
+    .price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+    }
+
+    .price {
+        color: #28a745;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .unit {
+        color: #6c757d;
+        font-size: 11px;
+    }
+
+    /* Action Buttons - Compact */
+    .product-actions {
+        display: flex;
+        border-top: 1px solid #e9ecef;
+        padding: 0;
+    }
+
+    .action-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 4px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+        color: #495057;
+    }
+
+        .action-btn:not(:last-child) {
+            border-right: 1px solid #e9ecef;
+        }
+
+    .edit-btn {
+        background: linear-gradient(135deg, #ffc107, #ff9800);
+        color: white !important;
+        font-weight: 600;
+    }
+
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            text-decoration: none;
+            color: white !important;
+        }
+
+    .details-btn {
+        background: linear-gradient(135deg, #17a2b8, #138496);
+        color: white !important;
+        font-weight: 600;
+    }
+
+        .details-btn:hover {
+            background: linear-gradient(135deg, #138496, #117a8b);
+            text-decoration: none;
+            color: white !important;
+        }
+
+    .delete-btn {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white !important;
+        font-weight: 600;
+    }
+
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #c82333, #bd2130);
+            text-decoration: none;
+            color: white !important;
+        }
+
+    .disabled-message {
+        color: #6c757d;
+        font-size: 11px;
+        padding: 8px 4px;
+        text-align: center;
+    }
+
+    /* Remove all animations/transitions */
+    .product-card:hover {
+        transform: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .product-image {
+            height: 200px;
+        }
+
+        .product-name {
+            font-size: 13px;
+            height: 32px;
+        }
+
+        .action-btn {
+            padding: 6px 4px;
+            font-size: 11px;
+        }
+    }
+</style>

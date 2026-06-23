@@ -1,0 +1,140 @@
+﻿@model IEnumerable<MVC_CodeFirst.Models.ViewModels.OrderMasterViewModel>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<div class="container mt-4">
+    <h2>Orders</h2>
+    <hr />
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    <div class="row mb-3">
+        <div class="col-md-12">
+            @{
+                bool canCreate = ViewBag.CanAccess("Order", "Create");
+                if (canCreate)
+                {
+                    @Html.ActionLink("Create New Order", "Create", null, new { @class = "btn btn-primary" })
+                }
+                else
+                {
+                    <button class="btn btn-primary" disabled title="You don't have permission for this">
+                        Create New Order
+                    </button>
+                }
+            }
+            @Html.ActionLink("Customer Summary", "CustomerSummary", "Order",
+                     null, new { @class = "btn btn-info ml-2" })
+        </div>
+    </div>
+
+    @*<p>
+        @Html.ActionLink("Place New Order", "Create", null, new { @class = "btn btn-primary" })
+    </p>*@
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>@Html.DisplayNameFor(model => model.CustomerName)</th>
+                    <th>@Html.DisplayNameFor(model => model.ContactNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.TotalAmount)</th>
+                    <th style="width: 160px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.OrderId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CustomerName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ContactNumber)</td>
+                        <td>@item.OrderDate.ToString("dd-MMM-yy")</td>
+                        <td>@Html.DisplayFor(modelItem => item.TotalAmount)</td>
+                        <td>
+                            @{
+                                bool canDetails = ViewBag.CanAccess("Order", "Details");
+                                bool canEdit = ViewBag.CanAccess("Order", "Edit");
+                                bool canDelete = ViewBag.CanAccess("Order", "Delete");
+                            }
+
+                            <div class="order-actions">
+                                @if (canDetails)
+                                {
+                                    @Html.ActionLink("Details", "Details", new { id = item.OrderId }, new { @class = "btn btn-sm btn-info" })
+                                }
+
+                                @if (canEdit)
+                                {
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderId }, new { @class = "btn btn-sm btn-warning" })
+                                }
+                                else if (canEdit == false)
+                                {
+                                    <button class="btn btn-sm btn-warning" disabled title="You don't have permission to Edit">Edit</button>
+                                }
+
+                                @if (canDelete)
+                                {
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.OrderId }, new { @class = "btn btn-sm btn-danger" })
+                                }
+                                else if (canDelete == false)
+                                {
+                                    <button class="btn btn-sm btn-danger" disabled title="You don't have permission to Delete">Delete</button>
+                                }
+
+                                @if (!canDetails && !canEdit && !canDelete)
+                                {
+                                    <span class="text-muted text-sm">No permissions available</span>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+
+    .order-actions {
+        display: flex;
+        gap: 2px;
+    }
+
+        .order-actions .btn {
+            margin-right: 0;
+            min-width: 60px;
+            padding: 3px 6px;
+            font-size: 0.80rem;
+        }
+
+            .order-actions .btn:last-child {
+                margin-right: 0;
+            }
+
+    .table-sm td, .table-sm th {
+        padding: 4px 8px;
+    }
+</style>

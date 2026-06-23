@@ -1,0 +1,73 @@
+﻿@model MVC_CodeFirst.Models.ViewModels.ProductViewModel
+
+<div class="card h-100 shadow-sm" id="product-@Model.ProductId">
+    @if (!string.IsNullOrEmpty(Model.ProductImage))
+    {
+        <img src="@Url.Content("~/Images/" + Model.ProductImage)" class="card-img-top" alt="@Model.ProductName" style="height: 200px; object-fit: cover;">
+    }
+    else
+    {
+        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+            <i class="fas fa-image fa-3x"></i>
+        </div>
+    }
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.ProductName</h5>
+        <p class="card-text small">
+            <strong>Category:</strong> @Model.CategoryName<br />
+            <strong>Unit:</strong> @Model.Unit<br />
+            <strong>Price:</strong> <span class="text-success"> @Model.UnitPrice</span><br />
+            <strong>Stock:</strong> <span class="badge badge-info">@Model.AvailableQuantity</span><br />
+            <strong>Status:</strong>
+            <span id="status-badge-@Model.ProductId" class="badge badge-@(Model.IsActive ? "success" : "danger")">
+                @(Model.IsActive ? "Active" : "Inactive")
+            </span>
+        </p>
+    </div>
+
+    <div class="card-footer bg-transparent">
+        @{
+            bool canEdit = ViewBag.CanAccess("Product", "Edit");
+            bool canDelete = ViewBag.CanAccess("Product", "Delete");
+        }
+
+        <!-- Edit Button -->
+        <div class="btn-group w-100 mb-2" role="group">
+            @if (canEdit)
+            {
+                <a href="@Url.Action("Edit", "Product", new { id = Model.ProductId })" class="btn btn-sm btn-warning btn-block">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+            }
+            else
+            {
+                <button type="button" class="btn btn-sm btn-warning btn-block" disabled title="You don't have permission to Edit">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+            }
+        </div>
+
+        <!-- Delete Button -->
+        <div class="btn-group w-100" role="group">
+            @if (canDelete)
+            {
+                <a href="@Url.Action("Delete", "Product", new { id = Model.ProductId })" class="btn btn-sm btn-danger btn-block">
+                    <i class="fas fa-trash"></i> Delete
+                </a>
+            }
+            else
+            {
+                <button type="button" class="btn btn-sm btn-danger btn-block" disabled title="You don't have permission to Delete">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            }
+        </div>
+
+        <!-- Permission message if no access -->
+        @if (!canEdit && !canDelete)
+        {
+            <div class="alert alert-warning alert-sm mt-2 mb-0" style="padding: 8px; font-size: 12px;">
+                <i class="fas fa-exclamation-triangle"></i> You don't have permission to modify this product.
+            </div>
+        }

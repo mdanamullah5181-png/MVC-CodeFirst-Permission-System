@@ -285,7 +285,7 @@ MIT License - See LICENSE file for details
 ## 👤 Author
 
 **Md Anamullah**  
-📧 Email: your-email@example.com  
+📧 Email: mohammadsayem570@gmail.com  
 🔗 GitHub: https://github.com/mdanamullah5181-png
 
 ---
